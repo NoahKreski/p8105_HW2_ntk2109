@@ -1,0 +1,11 @@
+---
+title: "HW2_Markdown"
+output: github_document
+author: Noah Kreski
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
