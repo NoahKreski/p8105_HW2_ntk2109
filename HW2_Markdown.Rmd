@@ -4,8 +4,21 @@ output: github_document
 author: Noah Kreski
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r question_three, include=FALSE}
+# install.packages("devtools")
+devtools::install_github("p8105/p8105.datasets")
+
+library(p8105.datasets)
+#Formatting appropriate names
+brfss_smart2010_Tidy = janitor::clean_names(brfss_smart2010) %>%
+                      #Removing unneeded variables
+                      select(-class, -topic, -question, -sample_size, -(confidence_limit_low:geo_location))%>%
+                      spread(key = response, value = data_value)
+                      
+
+
+
 ```
 
-## R Markdown
+
+
