@@ -3,14 +3,18 @@ title: "HW2_Markdown"
 output: github_document
 author: Noah Kreski
 ---
-
-```{r question_three_dataset}
+``` {r setup, include = FALSE}
+library(tidyverse)
 # install.packages("devtools")
 devtools::install_github("p8105/p8105.datasets")
 
 library(p8105.datasets)
+```
+
+```{r question_three_dataset}
+
 #Formatting appropriate names
-brfss_smart2010_Tidy = janitor::clean_names(brfss_smart2010) %>%
+brfss_smart2010_Tidy = janitor::clean_names(brfss_smart2010)%>%
                       #Removing unneeded variables
                       select(-class, -topic, -question, -sample_size, -(confidence_limit_low:geo_location))%>%
                       #Isolating necessary data values
@@ -19,19 +23,34 @@ brfss_smart2010_Tidy = janitor::clean_names(brfss_smart2010) %>%
                       spread(key=response, value = data_value)%>%
                       janitor::clean_names()%>%
                       mutate(EVG = excellent + very_good)
-```
 
-How many unique locations are included in the dataset? Is every state represented? What state is observed the most?
-
-In 2002, what is the median of the “Excellent” response value?
-
-```{r excellent_median,  include=FALSE}
 brfss_smart2010_Tidy_2002 = filter(brfss_smart2010_Tidy, year == 2002)
 ```
 
-The median of the Excellent response value in 2002 is ```r median(brfss_smart2010_Tidy_2002$EVG)```.
+###How many unique locations are included in the dataset? 
 
-Make a histogram of “Excellent” response values in the year 2002.
+There are `r nrow(distinct(brfss_smart2010_Tidy, locationdesc))` locations, based on the distinct number of location descriptions.
 
-Make a scatterplot showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010.
+###Is every state represented? 
+
+Every state is represented given that there are `r nrow(distinct(brfss_smart2010_Tidy, locationabbr))` location abbreviations which account for all states and Washington D.C.
+
+
+###What state is observed the most?
+
+
+
+
+
+
+
+###In 2002, what is the median of the “Excellent” response value?
+
+The median of the Excellent response value in 2002 is `r median(brfss_smart2010_Tidy_2002$EVG, na.rm=TRUE)`.
+
+
+
+###Make a histogram of “Excellent” response values in the year 2002.
+
+###Make a scatterplot showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010.
 
