@@ -3,13 +3,18 @@ title: "HW2_Markdown"
 output: github_document
 author: Noah Kreski
 ---
-``` {r setup, include = FALSE}
+``` {r setup, include = FALSE, warning = FALSE}
 library(tidyverse)
 # install.packages("devtools")
 devtools::install_github("p8105/p8105.datasets")
 
 library(p8105.datasets)
 ```
+
+
+
+
+#Problem Three
 
 ```{r question_three_dataset}
 
@@ -37,20 +42,32 @@ Every state is represented given that there are `r nrow(distinct(brfss_smart2010
 
 
 ###What state is observed the most?
+```{r state_freq}
 
+table(brfss_smart2010_Tidy$locationabbr)
 
+```
 
-
-
+Using the table function, which listed the number of observations for each location abbreviation, the 50 states and Washington DC, it can be seen that New Jersey, with 146 observations, is the most observed.
 
 
 ###In 2002, what is the median of the “Excellent” response value?
 
-The median of the Excellent response value in 2002 is `r median(brfss_smart2010_Tidy_2002$EVG, na.rm=TRUE)`.
-
+The median of the Excellent response value in 2002 is `r median(brfss_smart2010_Tidy_2002$excellent, na.rm=TRUE)` using the median function.
 
 
 ###Make a histogram of “Excellent” response values in the year 2002.
 
-###Make a scatterplot showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010.
+```{r excellent_historgram, warning = FALSE}
+ggplot(brfss_smart2010_Tidy_2002, aes(x = excellent)) + 
+  geom_histogram(position = "dodge", binwidth = 2)
+```
 
+###Make a scatterplot showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010.
+```{r data_NY, include = FALSE}
+brfss_smart2010_Tidy_NY = filter(brfss_smart2010_Tidy, locationdesc %in% c("NY - New York County","NY - Queens County"))
+```
+```{r scatterplot_NY}
+ggplot(brfss_smart2010_Tidy_NY, aes(x = year, y = excellent)) + 
+  geom_point(aes(color = locationdesc))
+```
