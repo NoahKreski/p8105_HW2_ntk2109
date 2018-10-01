@@ -7,7 +7,6 @@ author: Noah Kreski
 ```{r question_three_dataset}
 # install.packages("devtools")
 devtools::install_github("p8105/p8105.datasets")
-library(tidyverse)
 
 library(p8105.datasets)
 #Formatting appropriate names
