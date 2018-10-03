@@ -2,17 +2,40 @@ HW2\_Markdown
 ================
 Noah Kreski
 
+Problem One
+===========
+
+``` r
+#I am reading in the data file.
+subway_data = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")%>%
+              #This is to ensure workable names.
+              janitor::clean_names(dat = .)%>%
+              #I am selecting only the variables I need
+              select(.data = ., line:entry, vending, ada)
+              #I am using the car package recode function (for convenience) to recode the names of yes and no in the entry column.
+              subway_data$entry <- car::recode(subway_data$entry,"'YES' = TRUE;'NO'=FALSE")
+              #Now that the names are correct, I can convert to logical
+              subway_data$entry <- as.logical(subway_data$entry)
+```
+
+These data describe pertinent characteristics of the NYC subway system. These include the location and name of various stations, the routes served, accessibility characteristics, and more. Cleaning thee data involved an import, using janitor to clean the names, selecting only the variables needed, and using the convert function to produce a logical vector. The dimensions of the data set are as follows: 1868 rows by 19 columns using the nrwo and ncol functions.
+
+There are 465 distinct station names with a unique combination of station name and line using the command distinct(subway\_data, line, station\_name).
+
+Problem Two
+===========
+
 Problem Three
 =============
 
 ``` r
-#Formatting appropriate names
+#I am formatting appropriate names
 brfss_smart2010_Tidy = janitor::clean_names(brfss_smart2010)%>%
-                      #Removing unneeded variables
+                      #I am removing unneeded variables
                       select(-class, -topic, -question, -sample_size, -(confidence_limit_low:geo_location))%>%
-                      #Isolating necessary data values
+                      #I am isolating necessary data values
                       filter(response %in% c("Excellent", "Very good", "Good", "Fair", "Poor"))%>%
-                      #Splitting by response category
+                      #I am splitting by response category and creating a new variable
                       spread(key=response, value = data_value)%>%
                       janitor::clean_names()%>%
                       mutate(EVG = excellent + very_good)

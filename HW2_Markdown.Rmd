@@ -11,20 +11,44 @@ devtools::install_github("p8105/p8105.datasets")
 library(p8105.datasets)
 
 
+
 ```
 #Problem One
 ```{r question_one_dataset}
+#I am reading in the data file.
 subway_data = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")%>%
+              #This is to ensure workable names.
               janitor::clean_names(dat = .)%>%
+              #I am selecting only the variables I need
               select(.data = ., line:entry, vending, ada)
-              subway_data$entry <- recode(subway_data$entry,"'YES' = TRUE;'NO'=FALSE")
+              #I am using the car package recode function (for convenience) to recode the names of yes and no in the entry column.
+              subway_data$entry <- car::recode(subway_data$entry,"'YES' = TRUE;'NO'=FALSE")
+              #Now that the names are correct, I can convert to logical
               subway_data$entry <- as.logical(subway_data$entry)
-               
-              
-              
-
 ```
 
+These data describe pertinent characteristics of the NYC subway system. These include the location and name of various stations, the routes served, accessibility characteristics, and more. Cleaning thee data involved an import, using janitor to clean the names, selecting only the variables needed, and using the convert function to produce a logical vector. The dimensions of the data set are as follows: `r nrow(subway_data)` rows by 
+`r ncol(subway_data)` columns using the nrwo and ncol functions.
+
+###How many distinct subway stations are there?
+
+There are 465 distinct station names with a unique combination of station name and line using the command distinct(subway_data, line, station_name).
+
+###How many are ADA compliant?
+
+```{r question_one_ada}
+#I am getting the data set of distinct subway stations and keeping those that are ada-compliant
+filter(distinct(subway_data,line,station_name,.keep_all = TRUE), ada == TRUE)%>%
+  nrow()
+```
+
+There are 84 stations that are ADA compliant.
+
+###What proportion of station entrances / exits without vending allow entrance?
+
+```{r question_one_entrance}
+
+```
 
 #Problem Two
 
@@ -34,13 +58,13 @@ subway_data = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")%>
 
 ```{r question_three_dataset}
 
-#Formatting appropriate names
+#I am formatting appropriate names
 brfss_smart2010_Tidy = janitor::clean_names(brfss_smart2010)%>%
-                      #Removing unneeded variables
+                      #I am removing unneeded variables
                       select(-class, -topic, -question, -sample_size, -(confidence_limit_low:geo_location))%>%
-                      #Isolating necessary data values
+                      #I am isolating necessary data values
                       filter(response %in% c("Excellent", "Very good", "Good", "Fair", "Poor"))%>%
-                      #Splitting by response category
+                      #I am splitting by response category and creating a new variable
                       spread(key=response, value = data_value)%>%
                       janitor::clean_names()%>%
                       mutate(EVG = excellent + very_good)
