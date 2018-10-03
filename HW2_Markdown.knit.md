@@ -3,18 +3,10 @@ title: "HW2_Markdown"
 output: github_document
 author: Noah Kreski
 ---
-``` {r setup, include = FALSE, warning = FALSE}
-library(tidyverse)
-# install.packages("devtools")
-devtools::install_github("p8105/p8105.datasets")
 
-library(p8105.datasets)
-
-
-
-```
 #Problem One
-```{r question_one_dataset}
+
+```r
 #I am reading in the data file.
 subway_data = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")%>%
               #This is to ensure workable names.
@@ -27,8 +19,8 @@ subway_data = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")%>
               subway_data$entry <- as.logical(subway_data$entry)
 ```
 
-These data describe pertinent characteristics of the NYC subway system. These include the location and name of various stations, the routes served, accessibility characteristics, and more. Cleaning thee data involved an import, using janitor to clean the names, selecting only the variables needed, and using the convert function to produce a logical vector. The dimensions of the data set are as follows: `r nrow(subway_data)` rows by 
-`r ncol(subway_data)` columns using the nrwo and ncol functions.
+These data describe pertinent characteristics of the NYC subway system. These include the location and name of various stations, the routes served, accessibility characteristics, and more. Cleaning thee data involved an import, using janitor to clean the names, selecting only the variables needed, and using the convert function to produce a logical vector. The dimensions of the data set are as follows: 1868 rows by 
+19 columns using the nrwo and ncol functions.
 
 ###How many distinct subway stations are there?
 
@@ -36,7 +28,8 @@ There are 465 distinct station names with a unique combination of station name a
 
 ###How many are ADA compliant?
 
-```{r question_one_ada, eval = FALSE}
+
+```r
 #I am getting the data set of distinct subway stations and keeping those that are ada-compliant
 filter(distinct(subway_data,line,station_name,.keep_all = TRUE), ada == TRUE)%>%
   nrow()
@@ -46,10 +39,10 @@ There are 84 stations that are ADA compliant.
 
 ###What proportion of station entrances / exits without vending allow entrance?
 
-```{r question_one_entrance, eval = FALSE}
+
+```r
 #This mean value is the proportion of responses where entry is TRUE among the data entries where vending = "NO"
 mean(filter(subway_data, vending =="NO")$entry)
-
 ```
 
 The proportion of subway entrances/exits without vending that allow entrance is .3770492 based on the above code.
@@ -60,8 +53,8 @@ The proportion of subway entrances/exits without vending that allow entrance is 
 
 #Problem Three
 
-```{r question_three_dataset}
 
+```r
 #I am formatting appropriate names
 brfss_smart2010_Tidy = janitor::clean_names(brfss_smart2010)%>%
                       #I am removing unneeded variables
@@ -78,18 +71,27 @@ brfss_smart2010_Tidy_2002 = filter(brfss_smart2010_Tidy, year == 2002)
 
 ###How many unique locations are included in the dataset? 
 
-There are `r nrow(distinct(brfss_smart2010_Tidy, locationdesc))` locations, based on the distinct number of location descriptions.
+There are 404 locations, based on the distinct number of location descriptions.
 
 ###Is every state represented? 
 
-Every state is represented given that there are `r nrow(distinct(brfss_smart2010_Tidy, locationabbr))` location abbreviations which account for all states and Washington D.C.
+Every state is represented given that there are 51 location abbreviations which account for all states and Washington D.C.
 
 
 ###What state is observed the most?
-```{r state_freq}
 
+```r
 table(brfss_smart2010_Tidy$locationabbr)
+```
 
+```
+## 
+##  AK  AL  AR  AZ  CA  CO  CT  DC  DE  FL  GA  HI  IA  ID  IL  IN  KS  KY 
+##  11  18  21  32  52  59  47   9  27 122  27  31  14  32  25  21  38   9 
+##  LA  MA  MD  ME  MI  MN  MO  MS  MT  NC  ND  NE  NH  NJ  NM  NV  NY  OH 
+##  45  79  90  31  34  33  25  23  18 115  18  53  48 146  43  18  65  59 
+##  OK  OR  PA  RI  SC  SD  TN  TX  UT  VA  VT  WA  WI  WV  WY 
+##  40  33  59  38  63  18  26  71  50   4  48  97   9   9  22
 ```
 
 Using the table function, which listed the number of observations for each location abbreviation, the 50 states and Washington DC, it can be seen that New Jersey, with 146 observations, is the most observed.
@@ -97,21 +99,25 @@ Using the table function, which listed the number of observations for each locat
 
 ###In 2002, what is the median of the “Excellent” response value?
 
-The median of the Excellent response value in 2002 is `r median(brfss_smart2010_Tidy_2002$excellent, na.rm=TRUE)` using the median function.
+The median of the Excellent response value in 2002 is 23.6 using the median function.
 
 
 ###Make a histogram of “Excellent” response values in the year 2002.
 
-```{r excellent_historgram, warning = FALSE}
+
+```r
 ggplot(brfss_smart2010_Tidy_2002, aes(x = excellent)) + 
   geom_histogram(position = "dodge", binwidth = 2)
 ```
 
+![](HW2_Markdown_files/figure-markdown_github/excellent_historgram-1.png)
+
 ###Make a scatterplot showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010.
-```{r data_NY, include = FALSE}
-brfss_smart2010_Tidy_NY = filter(brfss_smart2010_Tidy, locationdesc %in% c("NY - New York County","NY - Queens County"))
-```
-```{r scatterplot_NY}
+
+
+```r
 ggplot(brfss_smart2010_Tidy_NY, aes(x = year, y = excellent)) + 
   geom_point(aes(color = locationdesc))
 ```
+
+![](HW2_Markdown_files/figure-markdown_github/scatterplot_NY-1.png)

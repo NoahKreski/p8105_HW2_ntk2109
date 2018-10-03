@@ -20,7 +20,28 @@ subway_data = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")%>
 
 These data describe pertinent characteristics of the NYC subway system. These include the location and name of various stations, the routes served, accessibility characteristics, and more. Cleaning thee data involved an import, using janitor to clean the names, selecting only the variables needed, and using the convert function to produce a logical vector. The dimensions of the data set are as follows: 1868 rows by 19 columns using the nrwo and ncol functions.
 
+### How many distinct subway stations are there?
+
 There are 465 distinct station names with a unique combination of station name and line using the command distinct(subway\_data, line, station\_name).
+
+### How many are ADA compliant?
+
+``` r
+#I am getting the data set of distinct subway stations and keeping those that are ada-compliant
+filter(distinct(subway_data,line,station_name,.keep_all = TRUE), ada == TRUE)%>%
+  nrow()
+```
+
+There are 84 stations that are ADA compliant.
+
+### What proportion of station entrances / exits without vending allow entrance?
+
+``` r
+#This mean value is the proportion of responses where entry is TRUE among the data entries where vending = "NO"
+mean(filter(subway_data, vending =="NO")$entry)
+```
+
+The proportion of subway entrances/exits without vending that allow entrance is .3770492 based on the above code.
 
 Problem Two
 ===========
