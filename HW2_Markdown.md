@@ -127,6 +127,11 @@ ggplot(brfss_smart2010_Tidy_2002, aes(x = excellent)) +
 ### Make a scatterplot showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010.
 
 ``` r
+#This isolates the NY county data needed.
+brfss_smart2010_Tidy_NY = filter(brfss_smart2010_Tidy, locationdesc %in% c("NY - New York County","NY - Queens County"))
+```
+
+``` r
 #Using the class example syntax, this is a scatterplot of the NY data.
 ggplot(brfss_smart2010_Tidy_NY, aes(x = year, y = excellent)) + 
   geom_point(aes(color = locationdesc))
