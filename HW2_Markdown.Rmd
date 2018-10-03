@@ -9,7 +9,22 @@ library(tidyverse)
 devtools::install_github("p8105/p8105.datasets")
 
 library(p8105.datasets)
+
+
 ```
+#Problem One
+```{r question_one_dataset}
+subway_data = read.csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv")%>%
+              janitor::clean_names(dat = .)%>%
+              select(.data = ., line:entry, vending, ada)
+              subway_data$entry <- recode(subway_data$entry,"'YES' = TRUE;'NO'=FALSE")
+              subway_data$entry <- as.logical(subway_data$entry)
+               
+              
+              
+
+```
+
 
 #Problem Two
 
