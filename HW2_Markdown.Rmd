@@ -7,11 +7,8 @@ author: Noah Kreski
 library(tidyverse)
 # install.packages("devtools")
 devtools::install_github("p8105/p8105.datasets")
-
 library(p8105.datasets)
-
-
-
+library(readxl)
 ```
 #Problem One
 ```{r question_one_dataset}
@@ -76,8 +73,38 @@ Using the above code, there are 60 stations that serve the A train, and 17 of th
 
 
 #Problem Two
+```{r question_two_trash_data}
+#This reads in the first excel sheet omitting the last columns with notes
+trash_wheel_data = read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28 (1).xlsx", sheet = 1, range = cell_cols("A:N"), col_names = TRUE)  %>%
+  #This produces reasonable variable names.
+                   janitor::clean_names()%>%
+  #This makes a more managable variable name
+                   rename( volume_cubic_yd = volume_cubic_yards)%>%
+  #This eliminates data that is not dumpster specific
+                   filter(!is.na(dumpster))%>%
+  #I am creating an integer variable of sports_balls
+                   mutate(sports_balls = as.integer(round(sports_balls)))
 
+```
+```{r question_two_precipitation_data}
+#This reads in the 2017 data.
+precipitation_data_2017 = read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28 (1).xlsx", sheet = 4, range = "A2:B14", col_names = TRUE)%>%
+#This Ensures no missing values and Adds a year variable.
+                          filter(!is.na(Total))%>%
+                          mutate(year = 2017)
+#This is the same as 2017.
+precipitation_data_2016 = read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28 (1).xlsx", sheet = 5, range = "A2:B14", col_names = TRUE)%>%
+                          filter(!is.na(Total))%>%
+                          mutate(year = 2016)
+#This combines data sets                        
+precipitation_data = bind_rows(precipitation_data_2016, precipitation_data_2017)%>%
+                     janitor::clean_names()%>%
+#This converts the month number to its name
+                     mutate(month = month.name[c(month)])
+                     
+```
 
+The first data set about Mr. Trash Wheel has  rows and  columns. Some key variables here include weight_tons, which gives a value of the trash weight in tons, and date, which gives the day, month, and year of measurement which will be crucial to assess factors and trends over time. The second data set about precipitation has  rows and columns. Key variables here include month of measurement and total, which gives precipitation in inches. In 2017 there were inches of precipitation.
 
 #Problem Three
 
