@@ -104,7 +104,7 @@ precipitation_data = bind_rows(precipitation_data_2016, precipitation_data_2017)
                      
 ```
 
-The first data set about Mr. Trash Wheel has  rows and  columns. Some key variables here include weight_tons, which gives a value of the trash weight in tons, and date, which gives the day, month, and year of measurement which will be crucial to assess factors and trends over time. The second data set about precipitation has  rows and columns. Key variables here include month of measurement and total, which gives precipitation in inches. In 2017 there were inches of precipitation.
+The first data set about Mr. Trash Wheel has `r nrow(trash_wheel_data)` rows and `r ncol(trash_wheel_data)` columns. Some key variables here include weight_tons, which gives a value of the trash weight in tons, and date, which gives the day, month, and year of measurement which will be crucial to assess factors and trends over time. The second data set about precipitation has `r nrow(precipitation_data)` rows and `r ncol(precipitation_data)` columns. Key variables here include month of measurement and total, which gives precipitation in inches. In 2017 there were `r sum((filter(precipitation_data, year==2017)$total))` inches of precipitation.The median number of sports balls in a dumpster in 2016 was `r median(filter(trash_wheel_data, year==2016)$sports_balls)` sports balls. All values of this paragraph derived from in-text code.
 
 #Problem Three
 
