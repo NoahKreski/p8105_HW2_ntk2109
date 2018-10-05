@@ -7,6 +7,7 @@ author: Noah Kreski
 library(tidyverse)
 # install.packages("devtools")
 devtools::install_github("p8105/p8105.datasets")
+#loading all extra libraries needed
 library(p8105.datasets)
 library(readxl)
 ```
@@ -29,7 +30,7 @@ These data describe pertinent characteristics of the NYC subway system. These in
 ###How many distinct subway stations are there?
 ```{r question_one_distinct, eval = FALSE}
 #This will tell me how many distinct line/name combos there are.
-distinct(subway_data, line, station_name)
+nrow(distinct(subway_data, line, station_name))
 ```
 
 There are 465 distinct station names with a unique combination of station name and line.

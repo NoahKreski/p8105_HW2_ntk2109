@@ -24,7 +24,7 @@ These data describe pertinent characteristics of the NYC subway system. These in
 
 ``` r
 #This will tell me how many distinct line/name combos there are.
-distinct(subway_data, line, station_name)
+nrow(distinct(subway_data, line, station_name))
 ```
 
 There are 465 distinct station names with a unique combination of station name and line.
@@ -97,7 +97,7 @@ precipitation_data = bind_rows(precipitation_data_2016, precipitation_data_2017)
                      mutate(month = month.name[c(month)])
 ```
 
-The first data set about Mr. Trash Wheel has 285 rows and 14 columns. Some key variables here include weight\_tons, which gives a value of the trash weight in tons, and date, which gives the day, month, and year of measurement which will be crucial to assess factors and trends over time. The second data set about precipitation has 24 rows and 3 columns. Key variables here include month of measurement and total, which gives precipitation in inches. In 2017 there were 32.93 inches of precipitation.
+The first data set about Mr. Trash Wheel has 285 rows and 14 columns. Some key variables here include weight\_tons, which gives a value of the trash weight in tons, and date, which gives the day, month, and year of measurement which will be crucial to assess factors and trends over time. The second data set about precipitation has 24 rows and 3 columns. Key variables here include month of measurement and total, which gives precipitation in inches. In 2017 there were 32.93 inches of precipitation.The median number of sports balls in a dumpster in 2016 was 26 sports balls. All values of this paragraph derived from in-text code.
 
 Problem Three
 =============
